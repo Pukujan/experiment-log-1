@@ -38,3 +38,18 @@ fix: memory entry burned in. SKILL.md already has the rule. cron watchdog covers
 unresolved: no runtime pre-response hook in hermes agent. pre_response.py must be called manually each turn. one missed call = one missed cadence increment.
 
 verification: `python3 /workspace/hermes-emotion-project/scripts/pre_response.py` from any turn. WAIT|N/M means counting, SEND|url means deliver.
+
+2026-06-22 correction:
+the earlier "just discipline" conclusion is obsolete. compaction and task mode reliably break manual function-call habits. pre_response.py was patched to fix runtime bugs, but it still needs a real Hermes lifecycle hook or gateway pre-send hook for enforcement.
+
+patched runtime details:
+- check_image_allowed signature now matches the current dominance-aware gate
+- intimacy/tease/dominance gate fails closed instead of falling back to top FAISS result
+- allowed image hosts are enforced in code: catbox.moe and zerochan.net only
+- successful SEND now marks sent and resets cadence
+- state read no longer calls `hades-mood state`, because that command can mutate delivery state
+- attachment_depth 0..200 is normalized to gate depth 0..1 with depth >= 50 as full
+- raw engine mood -10..10 is normalized to desire mood 0..10 before tease/dominance math
+
+related current doc:
+`collective-docs/agent/hermes-heartbeat__001-emotion-loop-reliability.md`
